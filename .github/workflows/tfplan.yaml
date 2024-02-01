@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - infrastructre/**
+      - infrastructure/**
   workflow_dispatch:
 
 # env:
