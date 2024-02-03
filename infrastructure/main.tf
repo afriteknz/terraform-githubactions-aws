@@ -40,7 +40,7 @@ resource "aws_flow_log" "example" {
 }
 
 resource "aws_s3_bucket" "example" {
-  bucket = "example"
+  bucket = "tf-flow-logs"
 }
 
 # Public subnet
