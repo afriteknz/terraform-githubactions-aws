@@ -29,13 +29,27 @@ resource "aws_vpc" "vpc" {
   }
 }
 
+# VPC flow logs 
+
+resource "aws_flow_log" "example" {
+  iam_role_arn    = aws_s3_bucket.example.arn
+  log_destination = "s3"
+  traffic_type    = "ALL"
+  vpc_id          = aws_vpc.vpc.id
+
+}
+
+resource "aws_s3_bucket" "example" {
+  bucket = "example"
+}
+
 # Public subnet
 resource "aws_subnet" "public_subnet" {
   vpc_id                  = aws_vpc.vpc.id
   count                   = length(var.public_subnets_cidr)
   cidr_block              = element(var.public_subnets_cidr, count.index)
   availability_zone       = element(local.availability_zones, count.index)
-  map_public_ip_on_launch = true
+  map_public_ip_on_launch = false
 
   tags = {
     Name        = "${var.environment}-${element(local.availability_zones, count.index)}-public-subnet"
@@ -68,7 +82,7 @@ resource "aws_internet_gateway" "ig" {
 
 # Elastic-IP (eip) for NAT
 resource "aws_eip" "nat_eip" {
-  vpc        = true
+  domain     = "vpc"
   depends_on = [aws_internet_gateway.ig]
 }
 
