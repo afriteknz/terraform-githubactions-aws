@@ -2,9 +2,7 @@ name: Terraform Destroy
 
 on:
   workflow_dispatch:
-    branches:
-      - dev
-      - main
+    branches: [ "dev", "main"]
     inputs:
       environment:
         description: 'Environment to run against'
