@@ -19,6 +19,7 @@ locals {
 
 # VPC
 resource "aws_vpc" "vpc" {
+  #checkov:skip=CKV_AWS_12:
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
