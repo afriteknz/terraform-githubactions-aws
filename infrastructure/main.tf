@@ -41,7 +41,12 @@ resource "aws_flow_log" "example" {
 }
 
 resource "aws_s3_bucket" "example" {
-  #checkov:skip=CKV_AWS_18, CKV2_AWS_62, CKV2_AWS_6, CKV2_AWS_61, CKV_AWS_21, CKV_AWS_145:
+  #checkov:skip=CKV_AWS_18:
+  #checkov:skip=CKV2_AWS_62:
+  #checkov:skip=CKV2_AWS_6:
+  #checkov:skip=CKV2_AWS_61:
+  #checkov:skip=CKV_AWS_21:
+  #checkov:skip=CKV_AWS_145:  
   bucket = "tf-flow-logs"
 }
 
