@@ -30,16 +30,6 @@ resource "aws_vpc" "vpc" {
   }
 }
 
-# VPC flow logs 
-
-resource "aws_flow_log" "vpc_logs" {
-  iam_role_arn    = aws_s3_bucket.example.arn
-  log_destination = "s3"
-  traffic_type    = "ALL"
-  vpc_id          = aws_vpc.vpc.id
-
-}
-
 resource "aws_s3_bucket" "example" {
   #checkov:skip=CKV_AWS_18:
   #checkov:skip=CKV2_AWS_62:
