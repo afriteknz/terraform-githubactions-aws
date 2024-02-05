@@ -32,7 +32,7 @@ resource "aws_vpc" "vpc" {
 
 # VPC flow logs 
 
-resource "aws_flow_log" "example" {
+resource "aws_flow_log" "vpc_logs" {
   iam_role_arn    = aws_s3_bucket.example.arn
   log_destination = "s3"
   traffic_type    = "ALL"
