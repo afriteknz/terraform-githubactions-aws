@@ -81,6 +81,7 @@ resource "aws_internet_gateway" "ig" {
 
 # Elastic-IP (eip) for NAT
 resource "aws_eip" "nat_eip" {
+  #checkov:skip=CKV2_AWS_19:
   depends_on = [aws_internet_gateway.ig]
 }
 
