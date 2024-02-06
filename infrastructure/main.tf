@@ -17,7 +17,7 @@ locals {
   availability_zones = ["${var.aws_region}a", "${var.aws_region}b"]
 }
 
-# VPC
+#VPC
 resource "aws_vpc" "vpc" {
   #checkov:skip=CKV2_AWS_12:
   #checkov:skip=CKV2_AWS_11:
