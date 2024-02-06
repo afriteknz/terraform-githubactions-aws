@@ -121,14 +121,14 @@ resource "aws_route" "public_internet_gateway" {
   gateway_id             = aws_internet_gateway.ig.id
 }
 
-# Route for NAT Gateway
+#Route for NAT Gateway
 resource "aws_route" "private_internet_gateway" {
   route_table_id         = aws_route_table.private.id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_nat_gateway.nat.id
 }
 
-# Route table associations for both Public & Private Subnets
+#Route table associations for both Public & Private Subnets
 resource "aws_route_table_association" "public" {
   count          = length(var.public_subnets_cidr)
   subnet_id      = element(aws_subnet.public_subnet.*.id, count.index)
