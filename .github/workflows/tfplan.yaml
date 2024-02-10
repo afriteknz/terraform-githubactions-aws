@@ -82,7 +82,7 @@ jobs:
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
             
           github.rest.issues.createComment({
-            issue_number: context.issue.1,
+            issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: output
@@ -107,7 +107,7 @@ jobs:
           *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
             
           github.rest.issues.createComment({
-            issue_number: context.issue.1,
+            issue_number: context.issue.number,
             owner: context.repo.owner,
             repo: context.repo.repo,
             body: output
