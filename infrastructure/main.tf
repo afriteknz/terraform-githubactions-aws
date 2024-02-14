@@ -1,31 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-
-  required_version = ">= 1.5"
-
-
-  backend "s3" {
-    region = var.aws_region
-    key    = "tfstatebucketgithubactionsInfo"
-
-  }
-
-
-}
-
-provider "aws" {
-  region = var.aws_region
-}
-
-
-
-
-
 locals {
   availability_zones = ["${var.aws_region}a", "${var.aws_region}b"]
 }
