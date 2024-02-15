@@ -24,6 +24,8 @@ env:
  # S3 bucket for the Terraform state
 
  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+ BUCKET_TF_KEY: ${{ secrets.BUCKET_TF_KEY}}
+ BUCKET_REGION: ${{ secrets.BUCKET_REGION}}
 
 
 jobs:
