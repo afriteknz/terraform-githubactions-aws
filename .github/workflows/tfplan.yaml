@@ -13,6 +13,15 @@ permissions:
   pull-requests: write
   issues: write
 
+env:
+ # verbosity setting for Terraform logs
+ TF_LOG: INFO
+
+ # S3 bucket for the Terraform state
+ BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+ BUCKET_TF_KEY: ${{ secrets.BUCKET_TF_KEY}}
+ BUCKET_REGION: ${{ secrets.BUCKET_REGION}}
+
 jobs:
 
   infra_plan:
@@ -50,7 +59,12 @@ jobs:
 
     - name: Terraform Init
       id: init
-      run: terraform init
+      run: |
+          terraform init \
+            -backend-config="bucket=$BUCKET_TF_STATE" \
+            -backend-config="key=$BUCKET_TF_KEY" \
+            -backend-config="region=$BUCKET_REGION" \
+            -backend-config="encrypt=true"
 
     - name: Terraform Validate
       id: validate
