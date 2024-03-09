@@ -38,6 +38,12 @@ jobs:
       # Checkout the repository to the GitHub Actions runner
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          path: ./infrastructure
+      
+
+      - name: List files before init
+        run: ls -la ./infrastructure
 
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
@@ -56,6 +62,9 @@ jobs:
             -backend-config="region=$BUCKET_REGION" \
             -backend-config="encrypt=true"
         working-directory: ./infrastructure
+
+      - name: List files after init
+        run: ls -la ./infrastructure
 
       # Validate terraform files
       - name: Terraform Validate
