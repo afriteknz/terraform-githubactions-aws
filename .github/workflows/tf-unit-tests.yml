@@ -49,6 +49,7 @@ jobs:
         # run: terraform init -backend=false
         
       - name: Terraform Init
+        working-directory: ./infrastructure
         run: |
           terraform init \
             -backend-config="bucket=$BUCKET_TF_STATE" \
