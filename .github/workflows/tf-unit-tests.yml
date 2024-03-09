@@ -48,14 +48,14 @@ jobs:
       #  run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
         # run: terraform init -backend=false
         
-      - name: Terraform Init
-        working-directory: ./infrastructure
+      - name: Terraform Init        
         run: |
           terraform init \
             -backend-config="bucket=$BUCKET_TF_STATE" \
             -backend-config="key=$BUCKET_TF_KEY" \
             -backend-config="region=$BUCKET_REGION" \
             -backend-config="encrypt=true"
+        working-directory: ./infrastructure
 
       # Validate terraform files
       - name: Terraform Validate
