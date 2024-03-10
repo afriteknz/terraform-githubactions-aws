@@ -39,11 +39,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          path: $GITHUB_WORKSPACE
+          path: $GITHUB_WORKSPACE/
       
 
       - name: List files before init
-        run: ls -la $GITHUB_WORKSPACE
+        run: ls -la $GITHUB_WORKSPACE/*
 
       # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
       - name: Setup Terraform
@@ -61,10 +61,10 @@ jobs:
             -backend-config="key=$BUCKET_TF_KEY" \
             -backend-config="region=$BUCKET_REGION" \
             -backend-config="encrypt=true"
-        working-directory: $GITHUB_WORKSPACE
+        working-directory: $GITHUB_WORKSPACE/
 
       - name: List files after init
-        run: ls -la $GITHUB_WORKSPACE
+        run: ls -la $GITHUB_WORKSPACE/
 
       # Validate terraform files
       - name: Terraform Validate
