@@ -61,10 +61,10 @@ jobs:
             -backend-config="key=$BUCKET_TF_KEY" \
             -backend-config="region=$BUCKET_REGION" \
             -backend-config="encrypt=true"
-        working-directory: $GITHUB_WORKSPACE/
+        working-directory: $GITHUB_WORKSPACE/infrastructure
 
       - name: List files after init
-        run: ls -la $GITHUB_WORKSPACE/
+        run: ls -la $GITHUB_WORKSPACE/infrastructure
 
       # Validate terraform files
       - name: Terraform Validate

@@ -80,7 +80,7 @@ resource "aws_nat_gateway" "nat" {
   }
 }
 
-#Routing tables to route traffic for Private Subnet
+##Routing tables to route traffic for Private Subnet
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.vpc.id
   tags = {
