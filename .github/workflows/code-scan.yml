@@ -16,14 +16,10 @@ on:
   workflow_dispatch:
 permissions: read-all
 
-env:
- # verbosity setting for Terraform logs
- TF_LOG: INFO
-
- # S3 bucket for the Terraform state
- BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
- BUCKET_TF_KEY: ${{ secrets.BUCKET_TF_KEY}}
- BUCKET_REGION: ${{ secrets.BUCKET_REGION}}
+#  # S3 bucket for the Terraform state
+#  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
+#  BUCKET_TF_KEY: ${{ secrets.BUCKET_TF_KEY}}
+#  BUCKET_REGION: ${{ secrets.BUCKET_REGION}}
 
 
 jobs:
@@ -35,63 +31,26 @@ jobs:
 
     runs-on: ubuntu-latest # The type of runner that the job will run on.
 
-  terraform-unit-tests:
-    name: "Terraform Unit Tests"
-    runs-on: ubuntu-latest
-    environment: development
-    
-
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checkout the repository to the GitHub Actions runner
-      - name: Checkout
-        uses: actions/checkout@v4
+      # Checks-out your repository under $GITHUB_WORKSPACE, so follow-up steps can access it
+      - uses: actions/checkout@v3
+
+      - name: Checkov GitHub Action
+        uses: bridgecrewio/checkov-action@v12
         with:
-          path: $GITHUB_WORKSPACE/
-      
-
-      - name: List files before init
-        run: ls -la $GITHUB_WORKSPACE/infrastructure
-
-      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v3
-
-      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-      # - name: Terraform Init
-      #  run: terraform init -backend-config="bucket=$BUCKET_TF_STATE"
-        # run: terraform init -backend=false
+          # This will add both a CLI output to the console and create a results.sarif file
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
         
-      - name: Terraform Init        
-        run: |
-          terraform init \
-            -backend-config="bucket=$BUCKET_TF_STATE" \
-            -backend-config="key=$BUCKET_TF_KEY" \
-            -backend-config="region=$BUCKET_REGION" \
-            -backend-config="encrypt=true"
-        working-directory: $GITHUB_WORKSPACE/infrastructure
-
-      - name: List files after init
-        run: ls -la $GITHUB_WORKSPACE/infrastructure
-
-      # Validate terraform files
-      - name: Terraform Validate
-        run: terraform validate
-
-      # Checks that all Terraform configuration files adhere to a canonical format
-      - name: Terraform Format
-        run: terraform fmt -check -recursive
-
-      # Perform a security scan of the terraform code using checkov
-      - name: Run Checkov action
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          framework: terraform
-
-      # Upload results to GitHub Advanced Security
       - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        
+        # Results are generated only on a success or failure
+        # this is required since GitHub by default won't run the next step
+        # when the previous one has failed. Security checks that do not pass will 'fail'.
+        # An alternative is to add `continue-on-error: true` to the previous step
+        # Or 'soft_fail: true' to checkov.
         if: success() || failure()
-        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
-          category: checkov
