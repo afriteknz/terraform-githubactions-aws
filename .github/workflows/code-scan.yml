@@ -1,38 +1,45 @@
-name: Terraform Unit Tests
-
-# on:
-#   push:
+name: checkov-static-analysis-scan
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - infrastructure/**
+    branches: ['*']
+    paths-ignore:
+      - '**/README.md'
+    # paths:
+    #   - infrastructure/**
 
-permissions:
-  actions: read
-  contents: read
-  security-events: write
+  pull_request:
+    branches: ["main"]
+    paths-ignore:
+       - '**/README.md'
+  # Allows you to run this workflow manually from the actions tab
+  workflow_dispatch:
+permissions: read-all
 
 env:
-
  # verbosity setting for Terraform logs
-
  TF_LOG: INFO
 
  # S3 bucket for the Terraform state
-
  BUCKET_TF_STATE: ${{ secrets.BUCKET_TF_STATE}}
  BUCKET_TF_KEY: ${{ secrets.BUCKET_TF_KEY}}
  BUCKET_REGION: ${{ secrets.BUCKET_REGION}}
 
 
 jobs:
+  scan:
+    permissions:      
+      contents: read # for actions/checkout to fetch code
+      actions: read  # only required for a private respository by gihub/codeql-action/upload-sarif to get the action run status
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+
+    runs-on: ubuntu-latest # The type of runner that the job will run on.
+
   terraform-unit-tests:
     name: "Terraform Unit Tests"
     runs-on: ubuntu-latest
     environment: development
+    
 
     steps:
       # Checkout the repository to the GitHub Actions runner
