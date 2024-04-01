@@ -45,7 +45,7 @@ jobs:
 
     # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
     - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+      uses: hashicorp/setup-terraform@v2
 
     - name: Setup Infracost
       uses: infracost/actions/setup@v2
@@ -87,8 +87,11 @@ jobs:
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       id: init
-      run: terraform -chdir="./infrastructure" init -input=false
-    #   run: terraform init
+      run: |
+        terraform -chdir="./infrastructure" init -input=false \
+        -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" \
+        -backend-config="key=${{ secrets.BUCKET_TF_KEY }}" \
+        -backend-config="region=${{ secrets.BUCKET_REGION }}" \
 
     # Checks that all Terraform configuration files adhere to a canonical format
     - name: Terraform Format
