@@ -3,10 +3,8 @@ name: checkov-static-analysis-scan
 on:
   push:
     branches: ['*']
-    paths:
-      - infrastructure/*
-    # paths-ignore:
-    #   - '**/README.md'
+    paths-ignore:
+      - '**/README.md'
     
 
   pull_request:
@@ -33,6 +31,7 @@ jobs:
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
         with:
+          directory: infrastructure/
           # This will add both a CLI output to the console and create a results.sarif file
           output_format: cli,sarif
           output_file_path: console,results.sarif
