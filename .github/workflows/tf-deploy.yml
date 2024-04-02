@@ -119,7 +119,7 @@ jobs:
     - name: Generate Infracost diff
       if:  ${{ (github.event_name == 'pull_request') && (vars.INFRACOST_SCAN_TYPE  == 'tf_plan') }}
       run: |
-        infracost diff --path=infrastructure/TFplan.JSON \
+        infracost diff --path=./infrastructure/TFplan.JSON \
                         --format=json \
                         --out-file=/tmp/infracost.json
 
