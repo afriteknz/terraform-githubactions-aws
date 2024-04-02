@@ -1,0 +1,33 @@
+name: Destroy Infrastructure
+
+on:
+  workflow_dispatch:
+  # You can add more triggers here such as `pull_request` or `schedule`
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.2.x
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+            role-to-assume: ${{ secrets.IAM_ROLE }}
+            role-session-name: AWSSession
+            aws-region: ${{ secrets.BUCKET_REGION }}
+
+      - name: Terraform Destroy
+        run: |
+          terraform -chdir="./infrastructure" destroy -auto-approve \
+          -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" \
+          -backend-config="key=${{ secrets.BUCKET_TF_KEY }}" \
+          -backend-config="region=${{ secrets.BUCKET_REGION }}" \
+          
