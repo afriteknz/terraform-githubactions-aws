@@ -3,10 +3,11 @@ name: checkov-static-analysis-scan
 on:
   push:
     branches: ['*']
-    paths-ignore:
-      - '**/README.md'
-    # paths:
-    #   - infrastructure/**
+    paths:
+      - infrastructure/*
+    # paths-ignore:
+    #   - '**/README.md'
+    
 
   pull_request:
     branches: ["main"]

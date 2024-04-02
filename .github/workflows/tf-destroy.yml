@@ -1,5 +1,4 @@
 name: terraform-destroy
-
 on:
   workflow_dispatch:
   # You can add more triggers here such as `pull_request` or `schedule`
