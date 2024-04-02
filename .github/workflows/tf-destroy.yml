@@ -24,6 +24,14 @@ jobs:
             role-session-name: AWSSession
             aws-region: ${{ secrets.BUCKET_REGION }}
 
+      - name: Terraform Init
+        id: init
+        run: |
+          terraform -chdir="./infrastructure" init -input=false \
+          -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" \
+          -backend-config="key=${{ secrets.BUCKET_TF_KEY }}" \
+          -backend-config="region=${{ secrets.BUCKET_REGION }}" \
+
       - name: Terraform Destroy
         run: |
           terraform -chdir="./infrastructure" destroy -auto-approve \
