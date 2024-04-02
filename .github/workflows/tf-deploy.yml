@@ -12,11 +12,13 @@ on:
       - '**/README.md'
 
 permissions: read-all
+
 #--------------------------
 #
 # PLEASE READ: Add a GitHub Actions variable 'INFRACOST_SCAN_TYPE' and set the value to either 'hcl_code' or 'tf_plan' depending on what type of Infracost scan desired.
 #
 #--------------------------
+  
 jobs:
   terraform:
     name: 'continuous-integration'
