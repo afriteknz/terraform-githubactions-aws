@@ -3,7 +3,7 @@ name: terraform-infra-provisioning
 on:
   workflow_dispatch:
   push:
-    branches: [ '*' ]
+    branches: [ 'main' ]
     paths-ignore:
       - '**/README.md'
   pull_request:
@@ -13,11 +13,11 @@ on:
 
 permissions: read-all
 
-#--------------------------
+#-----------------------------
 #
 # PLEASE READ: Add a GitHub Actions variable 'INFRACOST_SCAN_TYPE' and set the value to either 'hcl_code' or 'tf_plan' depending on what type of Infracost scan desired.
 #
-#--------------------------
+#-----------------------------
   
 jobs:
   terraform:
@@ -68,7 +68,7 @@ jobs:
     - name: Generate Infracost cost estimate baseline
       if: ${{ (github.event_name == 'pull_request') && (vars.INFRACOST_SCAN_TYPE  == 'hcl_code') }}
       run: |
-        infracost breakdown --path=. \
+        infracost breakdown --path=./infrastructure \
                             --format=json \
                             --out-file=/tmp/infracost-base.json
 
@@ -81,7 +81,7 @@ jobs:
     - name: Generate Infracost diff
       if: ${{ (github.event_name == 'pull_request') && (vars.INFRACOST_SCAN_TYPE  == 'hcl_code') }}
       run: |
-        infracost diff --path=. \
+        infracost diff --path=./infrastructure \
                         --format=json \
                         --compare-to=/tmp/infracost-base.json \
                         --out-file=/tmp/infracost.json
@@ -119,7 +119,7 @@ jobs:
     - name: Generate Infracost diff
       if:  ${{ (github.event_name == 'pull_request') && (vars.INFRACOST_SCAN_TYPE  == 'tf_plan') }}
       run: |
-        infracost diff --path=TFplan.JSON \
+        infracost diff --path=./infrastructure/TFplan.JSON \
                         --format=json \
                         --out-file=/tmp/infracost.json
 
