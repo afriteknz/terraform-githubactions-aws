@@ -5,8 +5,8 @@ on:
     branches: ['*']
     paths-ignore:
       - '**/README.md'
-    paths:
-      - infrastructure/**
+    # paths:
+    #   - infrastructure/**
 
   pull_request:
     branches: ["main"]
