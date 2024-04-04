@@ -1,5 +1,4 @@
 name: checkov-static-analysis-scan
-
 on:
   push:
     branches: ['*']
