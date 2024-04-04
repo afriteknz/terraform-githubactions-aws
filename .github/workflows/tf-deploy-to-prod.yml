@@ -1,4 +1,4 @@
-name: terraform-infra-provisioning
+name: deploy-to-prod
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
     paths-ignore:
       - '**/README.md'
   pull_request:
-    branches: ["main"]
+    branches: ['main']
     paths-ignore:
       - '**/README.md'
 

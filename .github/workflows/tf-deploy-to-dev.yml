@@ -1,4 +1,4 @@
-name: terraform-infra-provisioning
+name: deploy-to-dev
 
 on:
   workflow_dispatch:
