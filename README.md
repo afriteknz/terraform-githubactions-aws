@@ -1,4 +1,4 @@
-# Terraform AWS Deployment with GitHub Actions CI/CD
+# Terraform AWS Deployment with GitHub Actions CI/CD [This document is a WIP]
 
 This repository contains Terraform code demonstrating automated deployment to AWS using GitHub Actions CI/CD pipelines. The CI/CD pipelines are triggered by pull requests and include Static Code Analysis using Checkov for infrastructure as code security and compliance checks & FinOps using infracost the Frugal architect - https://thefrugalarchitect.com/.
 
@@ -76,13 +76,13 @@ If we see all the 4 steps ran fine, then we can raise a pull request to merge ou
 ##### Deploying Terraform from develop to production consecutively using Azure DevOps
 
 
-![alt text](image-8.webp)
+![alt text](illustrations/image-8.webp)
 
 In this blog post, I am going to be diving further into deploying Azure Resources with Terraform using Azure DevOps with a CI/CD perspective in mind. I am going to show how you can deploy a develop & production terraform environment consecutively using Azure DevOps pipelines and showing how this is done by using pipeline triggers to allow you to create these environments consecutively starting from a pull request into develop . 
 
 ### What is CI/CD?
 
-![alt text](2fd74-0th1nbsxndb5njynk.png)
+![alt text](illustrations/2fd74-0th1nbsxndb5njynk.png)
 
 
 CI stands for Continuous Integration and this part if CI/CD produces the life cycle from designing the infrastructure and coding it locally to building artefacts in a seamless and consistent manner.
@@ -133,7 +133,7 @@ One of the shortcomings of feature branching is that feature release management 
 
 ###### Feature Branching Without Feature Flags 
 
-![alt text](image.png)
+![alt text](illustrations/image.png)
 
 This diagram illustrates how developers create feature branches to manage feature development, ensuring that the current build is always in a deployable state. While every company's branching structure will be different, the basic premise is that you branch from a repository to make a new feature.
 
@@ -145,7 +145,7 @@ This process is called feature flag driven development, where continuous deliver
 
 ###### Feature Branching With Feature Flags 
 
-![alt text](image-1.png)
+![alt text](illustrations/image-1.png)
 
 Benefits
 
@@ -202,14 +202,14 @@ Branch Triggers are used to run a branch automatically once a branch has been up
 
     - When a pull request has been approved into develop
 
-![alt text](image-7.png)
+![alt text](illustrations/image-7.png)
 
 Pipeline Trigger
 
 Pipeline triggers are triggered whenever another pipeline has been successfully completed, deploying an app? You could have multiple pipelines with pipeline triggers, starting to get into the “CI/CD” world 
 
 
-![alt text](image-8.png)
+![alt text](illustrations/image-8.png)
 
 Awesome; so far I’ve covered a recommended branching strategy and the Triggers that we will be using; now lets look at Terraform and continue the CI/CD journey!
 
@@ -221,7 +221,7 @@ Lets work on the initial Terraform code
 
 For my example to show deployments between develop & production environments, I am going to create a storage account static website; below shows the Production example, with develop showing “Develop” instead of “Production“
 
-![alt text](image-9.png)
+![alt text](illustrations/image-9.png)
 
 Folder Structure for my Terraform Deployment (Throughout this blog post I will be adding more folders/files to this structure)
 
@@ -512,7 +512,7 @@ stages :
 
 ###### What will the develop pipeline do?
 
-![alt text](image-10.webp)
+![alt text](illustrations/image-10.webp)
 
 
 Production-Pipeline.yaml
@@ -637,7 +637,7 @@ stages :
 
 ###### What will the production pipeline do?
 
-![alt text](image-11.png)
+![alt text](illustrations/image-11.png)
 
 Sounds great, although I want to test the website URL before 
 
@@ -678,12 +678,12 @@ New-AzureRmStorageContainer -ResourceGroupName "tamopstf" -AccountName "thomastf
 
 I have two pipelines setup:-
 
-![alt text](image-23.png)
+![alt text](illustrations/image-23.png)
 
 
 Ensure you have two branches; master will be created by default; now create an additional branch called “develop”
 
-![alt text](image-13.png)
+![alt text](illustrations/image-13.png)
 
 Now create a pull request for develop, in my example – I have added to both index.html
 
@@ -706,39 +706,39 @@ production/index.html
 
 Now to merge this into the develop branch
 
-![alt text](image-14.png)
+![alt text](illustrations/image-14.png)
 
 Once merged; the magic begins to happen!
 
 Review the pipelines and you will notice the development pipeline has been kicked off
 
-![alt text](image-18.png)
+![alt text](illustrations/image-18.png)
 
 Check in Azure Portal
 
-![alt text](image-16.png)
+![alt text](illustrations/image-16.png)
 
 URL Check:-
 
-![alt text](image-17.png)
+![alt text](illustrations/image-17.png)
 
 
 Now check the Azure DevOps Pipelines again; now that develop pipeline has finished successfully, Production pipeline now begins automatically!
 
-![alt text](image-19.png)
+![alt text](illustrations/image-19.png)
 
-![alt text](image-20.png)
+![alt text](illustrations/image-20.png)
 
 
 
 Check in Azure Portal
 
-![alt text](image-21.png)
+![alt text](illustrations/image-21.png)
 
 
 URL check:-
 
-![alt text](image-22.png)
+![alt text](illustrations/image-22.png)
 
 
 Wrap up
