@@ -1,0 +1,48 @@
+name: destroy-infrastructure
+
+on:
+  workflow_dispatch:
+  # You can add more triggers here such as `pull_request` or `schedule`
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+
+     # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3.5.0
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        # with:
+        #   terraform_version: 1.2.x
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.0.0
+        with:
+            role-to-assume: ${{ secrets.IAM_ROLE }}
+            role-session-name: AWSSession
+            aws-region: ${{ secrets.BUCKET_REGION }}
+
+      - name: Terraform Init
+        id: init
+        run: |
+          terraform -chdir="./infrastructure" init -input=false \
+          -backend-config="bucket=${{ secrets.ALL_TF_STATES_BUCKET }}" \
+          -backend-config="key=${{ secrets.STAGE_TF_KEY }}" \
+          -backend-config="region=${{ secrets.BUCKET_REGION }}" \
+
+      - name: Terraform Destroy
+        run: |
+          terraform -chdir="./infrastructure" destroy -auto-approve 
+          
