@@ -1,4 +1,4 @@
-name: terraform-destroy-infrastructure
+name: destroy-infrastructure
 
 on:
   workflow_dispatch:
@@ -38,8 +38,8 @@ jobs:
         id: init
         run: |
           terraform -chdir="./infrastructure" init -input=false \
-          -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" \
-          -backend-config="key=${{ secrets.BUCKET_TF_KEY }}" \
+          -backend-config="bucket=${{ secrets.ALL_TF_STATES_BUCKET }}" \
+          -backend-config="key=${{ secrets.DEV_TF_KEY }}" \
           -backend-config="region=${{ secrets.BUCKET_REGION }}" \
 
       - name: Terraform Destroy
