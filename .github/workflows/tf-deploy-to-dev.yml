@@ -1,13 +1,13 @@
-name: terraform-infra-provisioning
+name: deploy-to-dev
 
 on:
   workflow_dispatch:
   push:
-    branches: [ 'dev' ]
+    branches: ['dev']
     paths-ignore:
       - '**/README.md'
   pull_request:
-    branches: ["dev"]
+    branches: ['dev']
     paths-ignore:
       - '**/README.md'
 
@@ -23,7 +23,7 @@ jobs:
   terraform:
     name: 'continuous-integration'
     runs-on: ubuntu-latest
-    environment: production
+    environment: development
     permissions:
       contents: read
       id-token: write
@@ -91,8 +91,8 @@ jobs:
       id: init
       run: |
         terraform -chdir="./infrastructure" init -input=false \
-        -backend-config="bucket=${{ secrets.BUCKET_TF_STATE }}" \
-        -backend-config="key=${{ secrets.BUCKET_TF_KEY }}" \
+        -backend-config="bucket=${{ secrets.ALL_TF_STATES_BUCKET }}" \
+        -backend-config="key=${{ secrets.DEV_TF_KEY }}" \
         -backend-config="region=${{ secrets.BUCKET_REGION }}" \
 
     # Checks that all Terraform configuration files adhere to a canonical format
@@ -166,6 +166,6 @@ jobs:
     # On push to "main", build or change infrastructure according to Terraform configuration files
     # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/dev'
     #   run: terraform apply -auto-approve -input=false
       run: terraform -chdir="./infrastructure" apply -auto-approve -input=false

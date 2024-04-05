@@ -7,7 +7,7 @@ on:
     
 
   pull_request:
-    branches: ["main"]
+    branches: ['main', 'dev', 'stage']
     paths-ignore:
        - '**/README.md'
   # Allows you to run this workflow manually from the actions tab
