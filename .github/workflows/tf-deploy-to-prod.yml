@@ -21,7 +21,7 @@ permissions: read-all
   
 jobs:
   terraform:
-    name: 'continuous-integration'
+    name: 'continuous-integration-to-prod'
     runs-on: ubuntu-latest
     environment: production
     permissions:

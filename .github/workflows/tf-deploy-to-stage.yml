@@ -21,7 +21,7 @@ permissions: read-all
   
 jobs:
   terraform:
-    name: 'continuous-integration'
+    name: 'continuous-integration-to-staging'
     runs-on: ubuntu-latest
     environment: staging
     permissions:
