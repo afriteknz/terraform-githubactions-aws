@@ -111,7 +111,7 @@ jobs:
       id: plan
       if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
       run: |
-        terraform -chdir="./infrastructure" plan -no-color -input=false \
+        terraform -chdir="./infrastructure" plan environments/dev/variables.tfvars -no-color \
         -out=TFplan.JSON
       continue-on-error: true
 
