@@ -24,7 +24,7 @@ resource "aws_s3_bucket" "example" {
   #checkov:skip=CKV_AWS_21:
   #checkov:skip=CKV_AWS_145:
   #checkov:skip=CKV_AWS_144:   
-  bucket = "tf-flow-logs"
+  bucket = var.S3bucket
 }
 
 # Public subnet

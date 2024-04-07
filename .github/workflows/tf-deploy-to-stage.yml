@@ -21,7 +21,7 @@ permissions: read-all
   
 jobs:
   terraform:
-    name: 'continuous-integration'
+    name: 'continuous-integration-to-staging'
     runs-on: ubuntu-latest
     environment: staging
     permissions:
@@ -111,7 +111,7 @@ jobs:
       id: plan
       if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
       run: |
-        terraform -chdir="./infrastructure" plan -no-color -input=false \
+        terraform -chdir="./infrastructure" plan environments/stage/variables.tfvars -no-color \
         -out=TFplan.JSON
       continue-on-error: true
 
