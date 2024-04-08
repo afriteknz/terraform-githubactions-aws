@@ -1,4 +1,4 @@
-name: destroy-infrastructure
+name: destroy-stage-infrastructure
 
 on:
   workflow_dispatch:

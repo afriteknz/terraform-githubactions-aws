@@ -1,4 +1,4 @@
-name: destroy-infrastructure
+name: destroy-prod-infrastructure
 
 on:
   workflow_dispatch:
