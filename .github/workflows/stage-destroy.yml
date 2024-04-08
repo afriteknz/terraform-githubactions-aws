@@ -44,5 +44,5 @@ jobs:
 
       - name: Terraform Destroy
         run: |
-          terraform -chdir="./infrastructure" destroy -auto-approve 
+          terraform -chdir="./infrastructure" destroy -var-file="environments/stage/variables.tfvars" -auto-approve 
           
