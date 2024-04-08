@@ -111,7 +111,7 @@ jobs:
       id: plan
       if: github.ref != 'refs/heads/main' || github.event_name == 'pull_request'
       run: |
-        terraform -chdir="./infrastructure" plan environments/dev/variables.tfvars -no-color \
+        terraform -chdir="./infrastructure" plan -var-file="environments/dev/variables.tfvars" -no-color \
         -out=TFplan.JSON
       continue-on-error: true
 
@@ -168,4 +168,4 @@ jobs:
     - name: Terraform Apply
       if: github.ref == 'refs/heads/dev'
     #   run: terraform apply -auto-approve -input=false
-      run: terraform -chdir="./infrastructure" apply environments/dev/variables.tfvars -auto-approve
+      run: terraform -chdir="./infrastructure" apply -var-file="environments/dev/variables.tfvars" -auto-approve
